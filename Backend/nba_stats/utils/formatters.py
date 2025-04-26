@@ -1,5 +1,6 @@
-from ..data.models import BoxScoreData, StaticBoxScoreData, ScoreboardData
+from ..data.models import BoxScoreData, StaticBoxScoreData, ScoreboardData, PlayByPlayData
 from typing import Dict, List, Any, Set
+from nba_api.stats.static import players
 from dateutil import parser
 from datetime import datetime, timezone
 import logging
@@ -130,3 +131,30 @@ class ScoreboardFormatter:
         logger.info("Printing formatted scoreboard")
         formatted_output = ScoreboardFormatter.format_scoreboard(scoreboard_data)
         print(formatted_output)
+
+class PlayByPlayFormatter:
+    """Handles formatting of play-by-play data for display"""
+    
+    @staticmethod
+    def format_play_by_play(play_by_play_data: PlayByPlayData) -> str:
+        """Format play-by-play data into a readable string"""
+        output = []
+        line = "{action_number}: {period}:{clock} {player_id} ({action_type})"
+        
+        # Add play-by-play header
+        output.append("\n===== PLAY-BY-PLAY =====")
+        
+        # Add each play
+        for play in play_by_play_data.plays:
+            player_name = ''
+            player = players.find_player_by_id(play['personId'])
+            if player is not None:
+                player_name = player['full_name']
+            output.append(line.format(action_number=play['actionNumber'],period=play['period'],clock=play['clock'],action_type=play['description'],player_id=player_name))
+        return "\n".join(output)
+    
+    @staticmethod
+    def print_play_by_play(play_by_play_data: List[Dict[str, Any]]) -> None:
+        """Print formatted play-by-play to console"""
+        formatted_output = PlayByPlayFormatter.format_play_by_play(play_by_play_data)
+        print(formatted_output[:1000])  # Limit to first 1000 characters for readability

@@ -55,3 +55,15 @@ class ScoreboardData(BaseDataModel):
         self.game_date = game_date
         self.games = games
         self.retrieved_at = retrieved_at or datetime.datetime.now()
+
+class PlayByPlayData(BaseDataModel):
+    """Data model for live play-by-play information."""
+
+    def __init__(self, 
+                 game_id: str, 
+                 plays: List[Dict[str, Any]],
+                 retrieved_at: Optional[datetime.datetime] = None):
+        self.game_id = game_id
+        self.plays = plays
+        self.retrieved_at = retrieved_at or datetime.datetime.now()
+       

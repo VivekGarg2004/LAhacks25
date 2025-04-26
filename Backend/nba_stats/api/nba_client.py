@@ -3,9 +3,11 @@ import pandas as pd
 from typing import Type, Optional, Dict, Any
 
 from nba_api.live.nba.endpoints import boxscore as live_boxscore, scoreboard
+from nba_api.live.nba.endpoints import playbyplay
+from nba_api.stats.static import players
 from nba_api.stats.endpoints import BoxScoreTraditionalV2 as static_boxscore
 
-from ..data.models import BoxScoreData, StaticBoxScoreData, ScoreboardData
+from ..data.models import BoxScoreData, StaticBoxScoreData, ScoreboardData, PlayByPlayData
 
 logger = logging.getLogger(__name__)
 
@@ -80,6 +82,15 @@ class NBAClient:
             parse_fn=NBAClient._parse_scoreboard_data,
             model_cls=ScoreboardData
         )
+    
+    @staticmethod
+    def get_live_play_by_play(game_id: str) -> Optional[PlayByPlayData]:
+        return NBAClient._fetch_and_parse(
+            game_id=game_id,
+            fetch_fn=NBAClient._fetch_live_play_by_play,
+            parse_fn=NBAClient._parse_live_play_by_play,
+            model_cls=PlayByPlayData
+        )
 
     @staticmethod
     def _fetch_live_data(game_id: str):
@@ -92,6 +103,10 @@ class NBAClient:
     @staticmethod
     def _fetch_scoreboard_data(game_id: str):
         return scoreboard.ScoreBoard()
+    
+    @staticmethod
+    def _fetch_live_play_by_play(game_id: str):
+        return playbyplay.PlayByPlay(game_id=game_id)
 
     @staticmethod
     def _parse_live_box_score(data: live_boxscore.BoxScore) -> Dict[str, Any]:
@@ -156,4 +171,11 @@ class NBAClient:
         return {
             'games': data.games.get_dict(),
             'game_date': data.score_board_date,
+        }
+    @staticmethod
+    def _parse_live_play_by_play(data: playbyplay.PlayByPlay) -> Dict[str, Any]:
+        # Parse play by play data
+        return {
+            'game_id': data.game_id,
+            'plays': data.actions.get_dict()
         }
