@@ -38,10 +38,12 @@ def create_app(test_config=None):
     from routes.scoreboard_routes import scoreboard_bp
     from routes.boxscore_routes import boxscore_bp
     from routes.play_by_play_routes import play_by_play_bp
+    from routes.gemini_routes import gemini_bp
     
     app.register_blueprint(scoreboard_bp, url_prefix='/api/v1')
     app.register_blueprint(boxscore_bp, url_prefix='/api/v1')
     app.register_blueprint(play_by_play_bp, url_prefix='/api/v1')
+    app.register_blueprint(gemini_bp, url_prefix='/api/v1')
     
     # Health check endpoint
     @app.route('/health')
