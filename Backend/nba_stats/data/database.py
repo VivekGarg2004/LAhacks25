@@ -24,7 +24,7 @@ class MongoDBClient:
         """Establish connection to MongoDB."""
         try:
             self.client = MongoClient(self.uri)
-            self.client.admin.command('ping')
+            self.client.server_info()
             logger.info(f"Connected to MongoDB")
             return True
         except Exception as e:
