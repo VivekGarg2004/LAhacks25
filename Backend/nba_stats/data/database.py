@@ -1,5 +1,6 @@
 from pymongo import MongoClient
-from typing import Optional, Type, Any
+from typing import Optional, Type, Any, List
+from pymongo import DESCENDING
 import logging
 
 from ..config import MONGO_URI
@@ -73,6 +74,7 @@ class MongoDBClient:
         """
         if not self.client:
             if not self.connect():
+                logger.error("Failed to connect to MongoDB")
                 return None
         
         db = self.client[db_name]
@@ -81,8 +83,42 @@ class MongoDBClient:
         try:
             data = collection.find_one({id_field: obj_id})
             if data:
+                data.pop('_id', None)
                 return obj_class.from_dict(data)
             return None
         except Exception as e:
             logger.error(f"Error retrieving object from MongoDB: {e}")
+            return None
+        
+    def get_latest(self, obj_id: Any, obj_class: Type, db_name: str, collection_name: str, limit: int = 30, sort_field: str = '_id', sort_direction: int = DESCENDING) -> Optional[List[Any]]:
+        """
+        Retrieve the latest 'limit' number of objects matching the query,
+        sorted by 'sort_field' in 'sort_direction', and reconstruct them
+        via from_dict(). Returns the last 'limit' objects based on the sort order.
+        """
+        if not self.client:
+            if not self.connect():
+                logger.error("Failed to connect to MongoDB")
+                return None
+
+        db = self.client[db_name]
+        collection = db[collection_name]
+
+        try:
+            cursor = collection.find_one({"game_id": obj_id})
+            cursor.pop('_id', None)
+            plays = cursor.get('plays', [])
+
+            if not plays:
+                logger.error(f"No plays found for game_id: {obj_id}")
+                return None
+            list_30 = plays[-limit:]
+            new_dict = {
+                'game_id': obj_id,
+                'plays': list_30
+            }
+            
+            return obj_class.from_dict(new_dict)
+        except Exception as e:
+            logger.error(f"Error retrieving latest objects from MongoDB: {e}")
             return None

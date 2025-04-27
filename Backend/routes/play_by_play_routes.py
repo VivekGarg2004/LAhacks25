@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from nba_stats.data.database import MongoDBClient
 from nba_stats.api.nba_client import NBAClient
 from nba_stats.data.models import PlayByPlayData
+import logging
 
 play_by_play_bp = Blueprint('play_by_play', __name__)
 
@@ -12,8 +13,9 @@ def get_play_by_play(game_id):
 
         # First try to get from database
         with MongoDBClient() as db_client:
-            play_by_play_data = db_client.get(
+            play_by_play_data = db_client.get_latest(
                 obj_id=game_id,
+                #query={"game_id": game_id},
                 obj_class=PlayByPlayData,
                 db_name="PlayByPlay",
                 collection_name="play_by_play"
@@ -21,11 +23,13 @@ def get_play_by_play(game_id):
             
             # If not in database, fetch from API
             if not play_by_play_data:
+                logging.info(f"Play-by-play data not found in database, fetching from API for game ID: {game_id}")
                 play_by_play_data = NBAClient.get_live_play_by_play(game_id)
                 if play_by_play_data:
                     # Save to database for future requests
                     db_client.save(play_by_play_data, "PlayByPlay", "play_by_play")
-            
+            else:
+                logging.info(f"Play-by-play data found in database for game ID: {game_id}")
             if not play_by_play_data:
                 return jsonify({"error": "Play-by-play data not found"}), 404
             

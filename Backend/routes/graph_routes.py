@@ -50,3 +50,72 @@ def get_sample_data():
         return jsonify(data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# ...existing code...
+
+@graph_bp.route('/table', methods=['GET', 'POST'])
+def create_table_image():
+    """Generate a table visualization as an image response"""
+    try:
+        # Get data from request or use sample data
+        if request.method == 'POST' and request.is_json:
+            data = request.json
+        else:
+            # Sample data as fallback
+            data = {
+                "headers": ["Name", "Value", "Change"],
+                "rows": [
+                    ["Item A", 100, "+20%"],
+                    ["Item B", 80, "-5%"],
+                    ["Item C", 120, "+10%"],
+                    ["Item D", 90, "0%"]
+                ]
+            }
+        
+        # Extract headers and rows
+        headers = data.get("headers", [])
+        rows = data.get("rows", [])
+        
+        # Calculate dynamic figure size based on data
+        num_rows = len(rows)
+        num_cols = len(headers) if headers else (len(rows[0]) if rows else 0)
+        
+        # Base size + additional space per row/column
+        width = 2 + (num_cols * 1.2)
+        height = 2 + (num_rows * 0.6)
+        
+        # Create a figure and axis with dynamic sizing
+        fig, ax = plt.subplots(figsize=(width, height))
+        
+        # Hide axes
+        ax.axis('tight')
+        ax.axis('off')
+        
+        # Create the table
+        table = ax.table(
+            cellText=rows,
+            colLabels=headers,
+            cellLoc='center',
+            loc='center'
+        )
+        
+        # Style the table
+        table.auto_set_font_size(False)
+        table.set_fontsize(12)
+        table.scale(1.2, 1.5)  # Adjust table size
+        
+        # Add a title if provided
+        if "title" in data:
+            plt.title(data["title"], fontsize=16, pad=20)
+        
+        # Save the plot to a BytesIO object
+        img = io.BytesIO()
+        fig.savefig(img, format='png', bbox_inches='tight', dpi=150, transparent=True)
+        img.seek(0)
+        plt.close(fig)  # Explicitly close the figure
+        
+        # Return the image as a response
+        return Response(img, mimetype='image/png')
+    except Exception as e:
+        # Consistent error handling
+        return jsonify({"error": str(e), "trace": traceback.format_exc()}), 500
