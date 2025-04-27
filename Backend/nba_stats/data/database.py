@@ -112,6 +112,7 @@ class MongoDBClient:
             if not plays:
                 logger.error(f"No plays found for game_id: {obj_id}")
                 return None
+            limit = min(limit, len(plays))
             list_30 = plays[-limit:]
             new_dict = {
                 'game_id': obj_id,
