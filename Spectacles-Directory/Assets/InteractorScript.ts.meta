@@ -1,0 +1,45 @@
+- !<AssetImportMetadata/7c71e1bd-dd89-4962-b499-8316b32ea94d>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 30c46f88-921f-4972-bd69-11e802e695ed
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 30c46f88-921f-4972-bd69-11e802e695ed
+  PackageType: NotAPackage
+  PackagePolicy: CannotBeUnpacked
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 1e4c669a-d49f-42df-a379-b76d222c5e71
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/1e4c669a-d49f-42df-a379-b76d222c5e71>
+  SvgIcon: ""
+  Description: ""
+  InternalVersion: 0
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  ComponentUid: 67db34dc-18ce-46f0-82d9-bb2996d174ab
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  CurrentVisibility: Editable
+  MaxVisibility: Editable
+  ScriptInputsHidden:
+    button: false
+    image: false
+    imageURL: false
+  ScriptTypesHidden:
+    {}
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  DefaultScriptInputs:
+    - imageURL: "https://images.ctfassets.net/dwtpq5hdcqjg/5xTThhJ3WhCey7WlEAuL3z/af2e8d8ab18e640a590265233307c146/og.png"
+      button: !<MappingBased.PinchButton> 00000000-0000-0000-0000-000000000000
+      image: !<reference.Image> 00000000-0000-0000-0000-000000000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @input string imageURL = "https://images.ctfassets.net/dwtpq5hdcqjg/5xTThhJ3WhCey7WlEAuL3z/af2e8d8ab18e640a590265233307c146/og.png"'
+    - // @input PinchButton button
+    - // @input Component.Image image

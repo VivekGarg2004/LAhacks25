@@ -1,0 +1,51 @@
+- !<AssetImportMetadata/30c0fdc6-ef63-4b7f-ab49-c9d03d416d92>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 8c3cb3b6-5d14-4c3c-a62e-3dda8e112220
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 8c3cb3b6-5d14-4c3c-a62e-3dda8e112220
+  PackageType: NotAPackage
+  PackagePolicy: CannotBeUnpacked
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 7fd11553-2003-453e-ac15-34d5dc7f1a39
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/7fd11553-2003-453e-ac15-34d5dc7f1a39>
+  SvgIcon: ""
+  Description: ""
+  InternalVersion: 0
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  ComponentUid: b36edc9e-eb05-43ad-b346-ceba436017ae
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  CurrentVisibility: Editable
+  MaxVisibility: Editable
+  ScriptInputsHidden:
+    createButton: false
+    destinationReference: false
+    destroyDelay: false
+    lerpSpeed: false
+    prefabToInstantiate: false
+  ScriptTypesHidden:
+    {}
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  DefaultScriptInputs:
+    - prefabToInstantiate: !<reference.ObjectPrefab> 00000000-0000-0000-0000-000000000000
+      destinationReference: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      createButton: !<MappingBased.Interactable> 00000000-0000-0000-0000-000000000000
+      destroyDelay: !<float> 5.000000
+      lerpSpeed: 0.100000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @input Asset.ObjectPrefab prefabToInstantiate {"hint":"The prefab object we will instantiate when clicking the create button"}'
+    - '// @input SceneObject destinationReference {"hint":"The position reference the object will move to on left-hand pinch"}'
+    - '// @input Interactable createButton {"hint":"The button that will create the prefab object"}'
+    - '// @input float destroyDelay = 5 {"hint":"The delay time in seconds before the instantiated object is destroyed"}'
+    - '// @input float lerpSpeed = 0.1 {"hint":"Speed at which the object moves to the destination on pinch"}'
