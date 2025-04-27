@@ -73,6 +73,7 @@ class MongoDBClient:
         """
         if not self.client:
             if not self.connect():
+                logger.error("Failed to connect to MongoDB")
                 return None
         
         db = self.client[db_name]
@@ -81,6 +82,7 @@ class MongoDBClient:
         try:
             data = collection.find_one({id_field: obj_id})
             if data:
+                data.pop('_id', None)
                 return obj_class.from_dict(data)
             return None
         except Exception as e:
