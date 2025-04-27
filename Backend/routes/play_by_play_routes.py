@@ -13,8 +13,9 @@ def get_play_by_play(game_id):
 
         # First try to get from database
         with MongoDBClient() as db_client:
-            play_by_play_data = db_client.get(
+            play_by_play_data = db_client.get_latest(
                 obj_id=game_id,
+                #query={"game_id": game_id},
                 obj_class=PlayByPlayData,
                 db_name="PlayByPlay",
                 collection_name="play_by_play"
