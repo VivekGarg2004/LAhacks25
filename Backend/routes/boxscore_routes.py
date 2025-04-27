@@ -32,3 +32,8 @@ def get_boxscore(game_id):
             return jsonify(boxscore_data.to_dict())
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@boxscore_bp.route('/hello', methods=['GET'])
+def hello_world():
+    """Simple endpoint to return Hello World"""
+    return jsonify({"message": "Hello, World!"})
