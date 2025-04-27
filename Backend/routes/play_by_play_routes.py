@@ -50,6 +50,7 @@ def get_play_by_play(game_id):
             for play in last_plays:
                 filtered_play = {field: play.get(field, None) for field in play if field not in redundant_fields}
                 filtered_plays.append(filtered_play)
+            filtered_plays.reverse()
 
             # Return the last 30 plays
             return jsonify({"last_plays": filtered_plays})

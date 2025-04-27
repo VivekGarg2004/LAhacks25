@@ -31,3 +31,20 @@ def get_scoreboard():
             return jsonify(scoreboard_data.to_dict())
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@scoreboard_bp.route('/current_game_id', methods=['GET'])
+def get_current_game_id():
+    """Get the current game ID"""
+    try:
+        # Try to get from database first
+        live_scoreboard = NBAClient.get_scoreboard()
+        games = live_scoreboard.games
+        active_game_ids = [
+            game['gameId']
+            for game in games
+            if game.get('gameStatus', 0) == 2  # 2 = Live
+        ]
+        game_id = active_game_ids[0] if active_game_ids else "0042400153"
+        return jsonify({"game_id": game_id})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
