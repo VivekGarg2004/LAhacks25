@@ -9,6 +9,7 @@ play_by_play_bp = Blueprint('play_by_play', __name__)
 def get_play_by_play(game_id):
     """Get play-by-play data for a specific game"""
     try:
+
         # First try to get from database
         with MongoDBClient() as db_client:
             play_by_play_data = db_client.get(
@@ -29,7 +30,10 @@ def get_play_by_play(game_id):
                 return jsonify({"error": "Play-by-play data not found"}), 404
             
             plays = play_by_play_data.plays
-            last_30_plays = plays[-30:] if len(plays) > 30 else plays
+            limit = request.args.get('limit', default=len(plays), type=int)
+            limit = min(limit, len(plays))
+
+            last_plays = plays[-limit:]
 
             redundant_fields = ['x', 'y', 'xLegacy', 'yLegacy', 'otherField', 'edited', 'isFieldGoal', 
                                 'isTargetScoreLastPeriod', 'orderNumber', 'personId', 'personIdsFilter', 
@@ -39,12 +43,12 @@ def get_play_by_play(game_id):
                                 'assistPlayerNameInitial', 'assistTotal', 'playerNameI', 'pointsTotal', 'turnoverTotal']
 
             filtered_plays = []
-            for play in last_30_plays:
+            for play in last_plays:
                 filtered_play = {field: play.get(field, None) for field in play if field not in redundant_fields}
                 filtered_plays.append(filtered_play)
 
             # Return the last 30 plays
-            return jsonify({"last_30_plays": filtered_plays})
+            return jsonify({"last_plays": filtered_plays})
             
     except Exception as e:
         return jsonify({"error": str(e)}), 500
