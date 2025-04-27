@@ -1,0 +1,51 @@
+- !<AssetImportMetadata/5804a562-f17e-4e23-8f33-2ade18682b7c>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 8e9d489b-fef0-45d6-aa64-e5b73c0a240e
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 8e9d489b-fef0-45d6-aa64-e5b73c0a240e
+  PackageType: NotAPackage
+  PackagePolicy: CannotBeUnpacked
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 3416a279-7dc3-479b-96c8-64230d2f6322
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/3416a279-7dc3-479b-96c8-64230d2f6322>
+  SvgIcon: ""
+  Description: ""
+  InternalVersion: 0
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  ComponentUid: 92b73383-77a9-4a78-9166-1da5215383f1
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  CurrentVisibility: Editable
+  MaxVisibility: Editable
+  ScriptInputsHidden:
+    button: false
+    handReference: false
+    httpButtonFoRequest: false
+    image: false
+    imageURL: false
+  ScriptTypesHidden:
+    {}
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  DefaultScriptInputs:
+    - imageURL: "https://images.ctfassets.net/dwtpq5hdcqjg/5xTThhJ3WhCey7WlEAuL3z/af2e8d8ab18e640a590265233307c146/og.png"
+      image: !<reference.Image> 00000000-0000-0000-0000-000000000000
+      handReference: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      button: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      httpButtonFoRequest: !<MappingBased.Interactable> 00000000-0000-0000-0000-000000000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @input Interactable httpButtonFoRequest {"hint":"The button that will create the prefab object"}'
+    - '// @input string imageURL = "https://images.ctfassets.net/dwtpq5hdcqjg/5xTThhJ3WhCey7WlEAuL3z/af2e8d8ab18e640a590265233307c146/og.png"'
+    - // @input Component.Image image
+    - // @input SceneObject handReference
+    - // @input SceneObject button
